@@ -75,45 +75,42 @@ function calcular() {
     mensaje += "- Las resistencias NO son simétricas (R1 ≠ R3 o R2 ≠ R4).\n";
   }
 
-if (!cumpleCondiciones) {
-  mensaje += "\nSugerencias para balancear el puente de Wheatstone:\n";
-  const sugeridoR1 = (R3 / R4) * R2;
-  const sugeridoR2 = (R4 / R3) * R1;
-  const sugeridoR3 = (R1 / R2) * R4;
-  const sugeridoR4 = (R2 / R1) * R3;
-  
-  const esDecimalValido = (num) => {
-    return Number.isInteger(num) || (Math.round(num * 10) / 10 === num);
-  };
-
-  if (sugeridoR1 > 0 && sugeridoR1 !== R1 && esDecimalValido(sugeridoR1)) {
-    mensaje += `- Ajuste R1 a ${sugeridoR1.toFixed(1)} Ω para lograr equilibrio.\n`;
-  }
-  if (sugeridoR2 > 0 && sugeridoR2 !== R2 && esDecimalValido(sugeridoR2)) {
-    mensaje += `- Ajuste R2 a ${sugeridoR2.toFixed(1)} Ω para lograr equilibrio.\n`;
-  }
-  if (sugeridoR3 > 0 && sugeridoR3 !== R3 && esDecimalValido(sugeridoR3)) {
-    mensaje += `- Ajuste R3 a ${sugeridoR3.toFixed(1)} Ω para lograr equilibrio.\n`;
-  }
-  if (sugeridoR4 > 0 && sugeridoR4 !== R4 && esDecimalValido(sugeridoR4)) {
-    mensaje += `- Ajuste R4 a ${sugeridoR4.toFixed(1)} Ω para lograr equilibrio.\n`;
-  }
-  
+  if (!cumpleCondiciones) {
+    mensaje += "\nSugerencias para balancear el puente de Wheatstone:\n";
+    const sugeridoR1 = (R3 / R4) * R2;
+    const sugeridoR2 = (R4 / R3) * R1;
+    const sugeridoR3 = (R1 / R2) * R4;
+    const sugeridoR4 = (R2 / R1) * R3;
     
+    const esDecimalValido = (num) => {
+      return Number.isInteger(num) || (Math.round(num * 10) / 10 === num);
+    };
 
+    if (sugeridoR1 > 0 && sugeridoR1 !== R1 && esDecimalValido(sugeridoR1)) {
+      mensaje += `- Para equilibrar, intente con la resistencia R1 = ${sugeridoR1.toFixed(2)} Ω.\n`;
+    }
+    if (sugeridoR2 > 0 && sugeridoR2 !== R2 && esDecimalValido(sugeridoR2)) {
+      mensaje += `- Para equilibrar, intente con la resistencia R2 = ${sugeridoR2.toFixed(2)} Ω.\n`;
+    }
+    if (sugeridoR3 > 0 && sugeridoR3 !== R3 && esDecimalValido(sugeridoR3)) {
+      mensaje += `- Para equilibrar, intente con la resistencia R3 = ${sugeridoR3.toFixed(2)} Ω.\n`;
+    }
+    if (sugeridoR4 > 0 && sugeridoR4 !== R4 && esDecimalValido(sugeridoR4)) {
+      mensaje += `- Para equilibrar, intente con la resistencia R4 = ${sugeridoR4.toFixed(2)} Ω.\n`;
+    }
   }
-  console.log({R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vfuente, Vs, I, I13, I24});
-
+  
   document.getElementById("resultado").innerText = mensaje;
 
   dibujarCircuito(R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vfuente, Vs, I, I13, I24);
+
+  crearTablas(R1, R2, R3, R4, Rs1, Rs2, Req, I, I13, I24, VR1, VR2, VR3, VR4, Vb, Vc, Vfuente, Vs);
 }
 
 function dibujarCircuito(R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vfuente, Vs, I, I13, I24) {
   const canvas = document.getElementById("canvasCircuito");
   const ctx = canvas.getContext("2d");
 
-  // Limpiar el canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Dimensiones del canvas
@@ -125,7 +122,6 @@ function dibujarCircuito(R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vf
   const colorLinea = "#00FFFF";
   const colorTexto = "#FF007F";
 
-  // Posiciones ajustadas para centrar el circuito y mantener la proporción de las líneas de la fuente
   const fuenteX = canvasWidth * 0.15;
   const fuenteY = canvasHeight * 0.3;
   const circuitoInicioX = canvasWidth * 0.35;
@@ -135,21 +131,21 @@ function dibujarCircuito(R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vf
 
   // Dibujar la fuente
   ctx.fillStyle = colorFuente;
-  ctx.fillRect(fuenteX, fuenteY, 30, 50); // Rectángulo de la fuente
-  ctx.fillStyle = colorTexto;
+  ctx.fillRect(fuenteX , fuenteY +100, 30, 50);
+  ctx.fillStyle = "#000";
   ctx.font = "16px Arial";
-  ctx.fillText("V", fuenteX + 10, fuenteY + 25);
+  ctx.fillText("V", fuenteX + 10, fuenteY + 130);
+  ctx.fillStyle = colorTexto;
 
-  // Líneas de conexión
+
   ctx.strokeStyle = colorLinea;
   ctx.lineWidth = 3;
 
-  // Conexión de la fuente al circuito (ajuste de longitud de líneas)
   ctx.beginPath();
-  ctx.moveTo(fuenteX + 15, fuenteY); // Punto superior de la fuente
-  ctx.lineTo(fuenteX + 15, circuitoInicioY - 40); // Línea más larga hacia arriba
-  ctx.lineTo(circuitoInicioX + 100, circuitoInicioY - 40); // Línea hacia la derecha
-  ctx.lineTo(circuitoInicioX + 100, circuitoInicioY); // Conectar a la parte superior del circuito
+  ctx.moveTo(fuenteX + 15, fuenteY +100);
+  ctx.lineTo(fuenteX + 15, circuitoInicioY - 40); 
+  ctx.lineTo(circuitoInicioX + 100, circuitoInicioY - 40); 
+  ctx.lineTo(circuitoInicioX + 100, circuitoInicioY); 
   ctx.stroke();
 
   // Rama superior izquierda (R1)
@@ -183,7 +179,7 @@ function dibujarCircuito(R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vf
   ctx.moveTo(circuitoInicioX, circuitoInicioY + circuitoAlto / 2);
   ctx.lineTo(circuitoInicioX + circuitoAncho, circuitoInicioY + circuitoAlto / 2);
   ctx.stroke();
-  ctx.fillText(`V = ${Vs.toFixed(2)}V`, circuitoInicioX + circuitoAncho / 2 - 30, circuitoInicioY + circuitoAlto / 2 - 10);
+  ctx.fillText(`Vs = ${Vs.toFixed(2)}V`, circuitoInicioX + circuitoAncho / 2 - 30, circuitoInicioY + circuitoAlto / 2 - 10);
 
   // Rama inferior izquierda (R3)
   ctx.beginPath();
@@ -212,6 +208,49 @@ function dibujarCircuito(R1, R2, R3, R4, Vfuente, VR1, VR2, VR3, VR4, Vb, Vc, Vf
   ctx.moveTo(circuitoInicioX + 100, circuitoInicioY + circuitoAlto);
   ctx.lineTo(circuitoInicioX + 100, circuitoInicioY + circuitoAlto + 40);
   ctx.lineTo(fuenteX + 15, circuitoInicioY + circuitoAlto + 40); // Línea hacia la izquierda con espacio extra
-  ctx.lineTo(fuenteX + 15, fuenteY + 50); // Línea hacia abajo
+  ctx.lineTo(fuenteX + 15, fuenteY + 150); // Línea hacia abajo
   ctx.stroke();
+}
+
+function crearTablas(R1, R2, R3, R4, Rs1, Rs2, Req, I, I13, I24, VR1, VR2, VR3, VR4, Vb, Vc, Vfuente, Vs) {
+  // Tabla de resistencias
+  const tablaResistencias = `
+    <table class="tabla">
+      <tr><th>Resistencia</th><th>Valor (Ω)</th></tr>
+      <tr><td>R1</td><td>${R1}</td></tr>
+      <tr><td>R2</td><td>${R2}</td></tr>
+      <tr><td>R3</td><td>${R3}</td></tr>
+      <tr><td>R4</td><td>${R4}</td></tr>
+      <tr><td>Rs1</td><td>${Rs1}</td></tr>
+      <tr><td>Rs2</td><td>${Rs2}</td></tr>
+      <tr><td>Rp1</td><td>${Req}</td></tr>
+    </table>`;
+
+  // Tabla de corrientes
+  const tablaCorrientes = `
+    <table class="tabla">
+      <tr><th>Corriente</th><th>Valor (A)</th></tr>
+      <tr><td>I</td><td>${I.toFixed(2)}</td></tr>
+      <tr><td>I1</td><td>${I13.toFixed(2)}</td></tr>
+      <tr><td>I2</td><td>${I24.toFixed(2)}</td></tr>
+    </table>`;
+
+  // Tabla de voltajes
+  const tablaVoltajes = `
+    <table class="tabla">
+      <tr><th>Voltaje</th><th>Valor (V)</th></tr>
+      <tr><td>Vfuente</td><td>${Vfuente}</td></tr>
+      <tr><td>VR1</td><td>${VR1.toFixed(2)}</td></tr>
+      <tr><td>VR2</td><td>${VR2.toFixed(2)}</td></tr>
+      <tr><td>VR3</td><td>${VR3.toFixed(2)}</td></tr>
+      <tr><td>VR4</td><td>${VR4.toFixed(2)}</td></tr>
+      <tr><td>Vs</td><td>${Vs.toFixed(2)}</td></tr>
+    </table>`;
+
+    document.getElementById("tablaResistencias").innerHTML = tablaResistencias;
+    document.getElementById("tablaCorrientes").innerHTML = tablaCorrientes;
+    document.getElementById("tablaVoltajes").innerHTML = tablaVoltajes;
+    document.querySelectorAll(".tabla-container").forEach(container => {
+      container.style.display = "block";
+    });
 }
