@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Puente de Wheatstone</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Simulador de Puente de Wheatstone</h1>
+  <div class="circuito">
+    <label>Resistencia R1: <input type="number" id="R1" placeholder="Ohmios"></label>
+    <label>Resistencia R2: <input type="number" id="R2" placeholder="Ohmios"></label>
+    <label>Resistencia R3: <input type="number" id="R3" placeholder="Ohmios"></label>
+    <label>Resistencia R4: <input type="number" id="R4" placeholder="Ohmios"></label>
+    <label>Voltaje de la fuente (V): <input type="number" id="Vfuente" placeholder="Voltios"></label>
+    <button onclick="calcular()">Calcular</button>
+  </div>
+  <p id="resultado"></p>
+  <canvas id="canvasCircuito" width="700" height="600"></canvas>
+  <script src="main.js"></script>
+</body>
+</html>
