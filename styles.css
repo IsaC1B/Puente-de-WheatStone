@@ -1,7 +1,7 @@
 /* Estilos básicos */
 body {
   font-family: Arial, sans-serif;
-  background-color: #1e1e2f; /* Fondo oscuro */
+  background-color: #1e1e2f;
   color: #e0e0e0;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,7 @@ body {
 }
 
 h1 {
-  color: #00bcd4; /* Color azul claro eléctrico */
+  color: #00bcd4;
   text-shadow: 1px 1px 10px #00bcd4;
 }
 
@@ -22,7 +22,7 @@ h1 {
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
   max-width: 350px;
-  text-align: center;
+  text-align: left;
 }
 
 label {
@@ -31,6 +31,7 @@ label {
   margin: 15px 0 5px;
   font-weight: bold;
 }
+
 
 input[type="number"] {
   background-color: #33334d;
@@ -43,7 +44,6 @@ input[type="number"] {
 }
 
 button {
-  margin-top: 15px;
   background-color: #00bcd4;
   color: #fff;
   border: none;
@@ -60,9 +60,9 @@ button:hover {
 }
 
 #resultado {
-  margin-top: 15px;
+  margin-top: 25px;
   font-size: 1.1rem;
-  color: #ff4081; /* Rojo eléctrico */
+  color: #fff;
 }
 
 canvas {
@@ -70,4 +70,41 @@ canvas {
   border-radius: 10px;
   margin-top: 20px;
   box-shadow: 0 0 15px rgba(0, 188, 212, 0.7);
+}
+
+.tabla-container {
+  display: none;
+  width: 100%;
+  max-width: 700px;
+  margin-top: 20px;
+  background-color: #2b2b3a;
+  border: 2px solid #00bcd4;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
+  overflow: hidden;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  color: #e0e0e0;
+}
+
+.tabla th, .tabla td {
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla th {
+  background-color: #33334d;
+  color: #00bcd4;
+  font-weight: bold;
+}
+
+.tabla tr:nth-child(even) {
+  background-color: #3e3e56;
+}
+
+.tabla tr:nth-child(odd) {
+  background-color: #2b2b3a;
 }
